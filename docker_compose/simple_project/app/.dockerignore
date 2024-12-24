@@ -1,0 +1,42 @@
+# Игнорируем файловую систему виртуальных окружений
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.log
+
+# Игнорируем конфиденциальные файлы
+.env
+*.env
+
+# Игнорируем файлы редакторов и IDE
+*.swp
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Игнорируем папки сборки
+build/
+dist/
+*.egg-info/
+
+# Игнорируем статику и медиа, так как они монтируются в volume
+static/
+media/
+logs/
+
+
+# Игнорируем файлы Docker Compose
+docker-compose.override.yml
+
+# Игнорируем тестовые файлы
+coverage.xml
+*.cover
+.tox/
+nosetests.xml
+test-results/
+
+# Игнорируем временные файлы операционной системы
+.DS_Store
+Thumbs.db
