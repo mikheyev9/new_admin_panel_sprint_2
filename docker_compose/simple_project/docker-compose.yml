@@ -20,6 +20,7 @@ services:
 
   nginx:
     image: nginx:latest
+    container_name: movie-nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./configs:/etc/nginx/conf.d:ro
