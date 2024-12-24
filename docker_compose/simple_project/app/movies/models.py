@@ -5,6 +5,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from movies.utils import person_photo_path
+
 
 class TimeStampedMixin(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -37,6 +39,7 @@ class Genre(UUIDMixin, TimeStampedMixin):
 
 class Person(UUIDMixin, TimeStampedMixin):
     full_name = models.CharField(_('name'), max_length=255)
+    photo = models.ImageField(_('photo'), upload_to=person_photo_path, blank=True, null=True)
 
     def __str__(self):
         return self.full_name
