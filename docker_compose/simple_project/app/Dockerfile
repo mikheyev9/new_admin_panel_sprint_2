@@ -1,27 +1,36 @@
-FROM python:3.10
-
-WORKDIR /opt/app
+FROM python:3.13-alpine
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV UWSGI_PROCESSES 1
 ENV UWSGI_THREADS 16
 ENV UWSGI_HARAKIRI 240
-ENV DJANGO_SETTINGS_MODULE 'example.settings'
+ENV DJANGO_SETTINGS_MODULE "example.settings"
 
-COPY run_uwsgi.sh run_uwsgi.sh
+
+RUN apk add --update alpine-sdk cmake make gcc libtool ca-certificates openssl-dev \
+    zlib-dev jpeg-dev libffi-dev python3-dev curl bash
+
+
+RUN curl -LsSf https://astral.sh/uv/install.sh | bash
+
+ENV PATH="${PATH}:/root/.local/bin"
+
+WORKDIR /opt/app
+
 COPY requirements.txt requirements.txt
 COPY uwsgi/uwsgi.ini uwsgi.ini
+COPY run_uwsgi.sh run_uwsgi.sh
 
-RUN  mkdir -p /var/www/static/ \
-     && mkdir -p /var/www/media/ \
-     && mkdir -p /opt/app/static/ \
-     && mkdir -p /opt/app/media/ \
-     && pip install --upgrade pip \
-     && pip install -r requirements.txt
+RUN uv pip install --system -r  requirements.txt
 
 COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT ["uwsgi", "--strict", "--ini", "uwsgi.ini"]
+RUN addgroup -S www-data || true \
+    && adduser -S -G www-data www-data || true \
+    && chmod +x /opt/app/run_uwsgi.sh
+
+ENTRYPOINT ["sh", "-c", "python manage.py collectstatic --noinput && ./run_uwsgi.sh"]
+
