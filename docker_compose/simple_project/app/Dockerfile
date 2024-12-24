@@ -32,5 +32,4 @@ RUN addgroup -S www-data || true \
     && adduser -S -G www-data www-data || true \
     && chmod +x /opt/app/run_uwsgi.sh
 
-ENTRYPOINT ["sh", "-c", "python manage.py collectstatic --noinput && ./run_uwsgi.sh"]
-
+ENTRYPOINT ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && ./run_uwsgi.sh"]
