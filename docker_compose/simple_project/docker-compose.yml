@@ -26,6 +26,7 @@ services:
       - ./configs:/etc/nginx/conf.d:ro
       - ./data/static:/var/www/static:ro
       - ./data/media:/var/www/media:ro
+      - ./html:/usr/share/nginx/html:ro
     depends_on:
       - app
     networks:
