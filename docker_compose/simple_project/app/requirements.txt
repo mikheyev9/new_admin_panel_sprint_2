@@ -4,3 +4,5 @@ python-dotenv==1.0.1
 split-settings==1.0.0
 uwsgi==2.0.28
 Pillow
+django-cors-headers
+django-debug-toolbar
