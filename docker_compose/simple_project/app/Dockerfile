@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 ENV UWSGI_PROCESSES 1
 ENV UWSGI_THREADS 16
 ENV UWSGI_HARAKIRI 240
-ENV DJANGO_SETTINGS_MODULE "example.settings"
+ENV DJANGO_SETTINGS_MODULE "settings.settings"
 
 
 RUN apk add --update alpine-sdk cmake make gcc libtool ca-certificates openssl-dev \
@@ -20,9 +20,10 @@ WORKDIR /opt/app
 
 COPY requirements.txt requirements.txt
 COPY uwsgi/uwsgi.ini uwsgi.ini
+COPY uwsgi/logrotate/uwsgi.conf /etc/logrotate.d/uwsgi
 COPY run_uwsgi.sh run_uwsgi.sh
 
-RUN uv pip install --system -r  requirements.txt
+RUN uv pip install --system -r requirements.txt
 
 COPY . .
 
