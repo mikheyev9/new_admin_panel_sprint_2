@@ -29,8 +29,10 @@ COPY . .
 
 EXPOSE 8000
 
-RUN addgroup -S www-data || true \
-    && adduser -S -G www-data www-data || true \
+RUN addgroup -g 1000 -S www-data || true \
+    && adduser -u 1000 -G www-data -S www-data || true \
     && chmod +x /opt/app/run_uwsgi.sh
+
+USER www-data
 
 ENTRYPOINT ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && ./run_uwsgi.sh"]

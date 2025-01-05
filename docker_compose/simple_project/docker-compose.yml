@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     container_name: movie-app
     volumes:
-      - ./data/static:/opt/app/staticfiles
-      - ./data/media:/opt/app/media
-      - ./data/logs:/var/log/
+      - ./data/static:/opt/app/staticfiles:rw
+      - ./data/media:/opt/app/media:rw
+      - ./data/logs:/var/log/:rw
     ports:
       - "8000:8000"
     env_file:
