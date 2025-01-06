@@ -1,0 +1,5 @@
+{% if photo_url %}
+    <img src="{{ photo_url }}" style="max-height: 100px;" />
+{% else %}
+    <span>{{ _('No photo') }}</span>
+{% endif %}

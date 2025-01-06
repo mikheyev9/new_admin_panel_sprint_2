@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+from django.template.loader import render_to_string
 
 from .models import FilmWork, Genre, GenreFilmWork, Person, PersonFilmWork
 
@@ -18,9 +18,8 @@ class PersonAdmin(admin.ModelAdmin):
     search_fields = ('full_name',)
 
     def photo_preview(self, obj):
-        if obj.photo:
-            return format_html('<img src="{}" style="max-height: 100px;"/>', obj.photo.url)
-        return _('No photo')
+        context = {'photo_url': obj.photo.url if obj.photo else None}
+        return render_to_string('admin/movies/photo_preview.html', context)
 
     photo_preview.short_description = _('Photo Preview')
 
