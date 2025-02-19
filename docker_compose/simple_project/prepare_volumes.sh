@@ -7,6 +7,22 @@ VOLUMES=(
   "./data/logs"
 )
 
+
+# Проверяем существование пользователя www-data
+if ! getent group www-data > /dev/null; then
+    echo "Создаём группу www-data..."
+    groupadd -g 1000 www-data
+else
+    echo "Группа www-data уже существует"
+fi
+
+if ! getent passwd www-data > /dev/null; then
+    echo "Создаём пользователя www-data..."
+    useradd -u 1000 -g www-data -s /sbin/nologin www-data
+else
+    echo "Пользователь www-data уже существует"
+fi
+
 # UID и GID для пользователя www-data
 WWW_DATA_UID=1000  # Замените на UID пользователя www-data из контейнера
 WWW_DATA_GID=1000  # Замените на GID пользователя www-data из контейнера
